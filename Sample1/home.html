@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Card Based View</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/css/materialize.min.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.10/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/js/materialize.min.js"></script>
+  <script type="text/javascript" src="js/app.js"></script>
+  <script type="text/javascript" src="js/main.controller.js"></script>
+  <script type="text/javascript" src="js/main.factory.js"></script>
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+  <script type="text/javascript">
+    $(document).ready(function(){
+      $('.modal-trigger').leanModal();
+    });
+  </script>
+</head>
+
+<body ng-app="CardView">
+  
+  <!-- Header -->
+  <nav ng-controller="Head" class="grey darken-3" role="navigation">
+    <div class="nav-wrapper container">
+      <a id="logo-container" ng-click="init()" class="brand-logo"><img class="logo" src='http://orig02.deviantart.net/f895/f/2009/306/8/7/lorem_ipsum_by_neosh.jpg'/></a>
+      <span ng-click="changeTemplate('grid')" class="grid_icon"><i class="material-icons">view_module</i></span>
+      <span ng-click="changeTemplate('list')" class="list_icon"><i class="material-icons">view_list</i></span>
+      <span ng-click="addCard()" class="add_icon"><i class="material-icons">add</i></span>
+    </div>
+  </nav>
+  <!-- Header End -->
+
+  <!-- Main Body -->
+  <div ng-controller="Body">
+    <div class="row">
+      <div class="input-field col s6 m6 l6" style="margin-left:25%;">
+        <input ng-keypress="search($event)" id="search" placeholder="Search" type="text" class="validate">
+      </div>
+    </div>
+
+    <div class="row">
+      <div ng-repeat="card in renCards">
+        <ng-include src="template"></ng-include>
+      </div>
+    </div>
+
+    <div id="modal1" class="modal">
+      <div class="modal-content">
+        <h4>Edit Title</h4>
+        <div class="row">
+          <div class="input-field col s6">
+            <input ng-model="newTitle" class="prev_title" type="text" class="validate">
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <a ng-click="saveTitle()" class=" modal-action modal-close waves-effect waves-green btn-flat">Save</a>
+        <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Cancel</a>
+      </div>
+    </div>
+  </div>
+  <!-- Main Body End -->
+
+  <script type="text/ng-template" id="grid">
+    <div id="{{card.$$hashKey}}" class="col s6 m4 l3">
+      <div class="card">
+        <div class="card-image">
+          <img src={{card.imageURL}}>
+          <span ng-click="deleteCard(card.$$hashKey, cards)" class="delete_icon"><i class="material-icons">delete</i></span>
+          <span class="card-title" style="color:blue;">{{ card.title }}<a ng-click="editTitle(card.title, card.$$hashKey)"><img src="https://cdn3.iconfinder.com/data/icons/google-material-design-icons/48/ic_mode_edit_48px-128.png" style="cursor:pointer; height:20px; width:20px;"></a></span>
+        </div>
+        <div class="card-content">
+          <p>{{ card.desc }}</p>
+        </div>
+      </div>
+    </div>
+  </script>
+
+  <script type="text/ng-template" id="list">
+    <div id="{{card.$$hashKey}}" class="col s12 m12 l12">
+    <div class="card">
+    <div class="col s6 m4 l4 grid_right">
+      <div class="card-image">
+        <img src={{card.imageURL}}>
+        <span ng-click="deleteCard(card.$$hashKey, cards)" class="delete_icon"><i class="material-icons">delete</i></span>
+        <span class="card-title" style="color:blue;">{{ card.title }}<a ng-click="editTitle(card.title, card.$$hashKey)"><img src="https://cdn3.iconfinder.com/data/icons/google-material-design-icons/48/ic_mode_edit_48px-128.png" style="cursor:pointer; height:20px; width:20px;"></a></span>
+      </div>
+      </div>
+      <div class="col s6 m8 l8">
+      <div class="card-content">
+        <p>{{ card.desc }}</p>
+      </div>
+      </div>
+    </div>
+  </div>
+  </script>
+
+</body>
+
+</html>
